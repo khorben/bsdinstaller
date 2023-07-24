@@ -49,6 +49,7 @@ for target in "\$@"; do
 		DISTRIBUTIONS="lib32-dbg.txz" \
 		./bsdinstall "\$target"
 done
+EOF
 $ sh test.sh fetchmissingdists checksum distextract
 ```
 
