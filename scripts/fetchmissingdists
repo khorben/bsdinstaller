@@ -28,7 +28,8 @@
 # $FreeBSD$
 #
 
-BSDCFG_SHARE="/usr/share/bsdconfig"
+: ${PREFIX:="/usr"}; export PREFIX
+: ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
 
 error()
