@@ -40,7 +40,7 @@ DESTDIR="\$BSDINSTALLDIR/destdir"
 BSDINSTALL_DISTDIR="\$BSDINSTALL_DISTDIR/freebsd-dist"
 SRCDIR="/usr/src"
 
-TMPDIR="$(mktemp -d)"; export TMPDIR
+TMPDIR="\$(mktemp -d)"; export TMPDIR
 for target in "\$@"; do
 	BSDCFG_SHARE="\$SRCDIR/usr.sbin/bsdconfig/share" \
 		BSDINSTALL_CHROOT="\$DESTDIR" \
