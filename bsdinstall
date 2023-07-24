@@ -41,7 +41,7 @@ export DEBUG_INITIALIZE_FILE=
 
 ############################################################ GLOBALS
 
-: ${TMPDIR:="/tmp"}; export TMPDIR
+: ${TMPDIR:=$(mktemp -d)}; export TMPDIR
 
 : ${BSDINSTALL_TMPETC="${TMPDIR}/bsdinstall_etc"}; export BSDINSTALL_TMPETC
 : ${BSDINSTALL_TMPBOOT="${TMPDIR}/bsdinstall_boot"}; export BSDINSTALL_TMPBOOT
