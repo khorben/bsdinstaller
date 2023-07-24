@@ -39,7 +39,7 @@ To build distfetch:
 $ sudo pkg install bsddialog
 [...]
 $ (cd distfetch &&
-	CPATH=/usr/local/include make LDFLAGS="-L/usr/local/lib -lbsddialog -lfetch")
+    CPATH=/usr/local/include make LDFLAGS="-L/usr/local/lib -lbsddialog -lfetch")
 ```
 
 To build distextract:
@@ -62,12 +62,12 @@ SRCDIR="/usr/src"
 
 TMPDIR="\$(mktemp -d)"; export TMPDIR
 for target in "\$@"; do
-	BSDCFG_SHARE="\$SRCDIR/usr.sbin/bsdconfig/share" \
-		BSDINSTALL_CHROOT="\$DESTDIR" \
-		BSDINSTALL_SCRIPTS="\$BSDINSTALLDIR/scripts" \
-		LOCAL_DISTRIBUTIONS="base.txz kernel.txz lib32.txz" \
-		DISTRIBUTIONS="lib32-dbg.txz" \
-		./bsdinstall "\$target"
+    BSDCFG_SHARE="\$SRCDIR/usr.sbin/bsdconfig/share" \
+        BSDINSTALL_CHROOT="\$DESTDIR" \
+        BSDINSTALL_SCRIPTS="\$BSDINSTALLDIR/scripts" \
+        LOCAL_DISTRIBUTIONS="base.txz kernel.txz lib32.txz" \
+        DISTRIBUTIONS="lib32-dbg.txz" \
+        ./bsdinstall "\$target"
 done
 EOF
 $ sh test.sh fetchmissingdists checksum distextract
