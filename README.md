@@ -29,6 +29,13 @@ $ (cd distfetch &&
 	CPATH=/usr/local/include make LDFLAGS="-L/usr/local/lib -lbsddialog -lfetch")
 ```
 
+To build distextract:
+
+```shell-session
+$ (cd distextract &&
+    CPATH=/usr/local/include make LDFLAGS="-L/usr/local/lib -lbsddialog -larchive")
+```
+
 To run individual steps in a sequence:
 
 ```shell-session
