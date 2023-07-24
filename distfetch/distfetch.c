@@ -82,6 +82,10 @@ main(void)
 
 	for (i = 0; i < ndists; i++) {
 		urls[i] = malloc(PATH_MAX);
+		if (urls[i] == NULL) {
+			free(diststring);
+			errx(EXIT_FAILURE, "Error: distfetch URLs out of memory!");
+		}
 		snprintf(urls[i], PATH_MAX, "%s/%s",
 		    getenv("BSDINSTALL_DISTSITE"), strsep(&diststring, " \t"));
 	}
