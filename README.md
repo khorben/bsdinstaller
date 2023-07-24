@@ -44,7 +44,7 @@ $ cat > test.sh << EOF
 
 BSDINSTALLDIR="\$PWD"
 DESTDIR="\$BSDINSTALLDIR/destdir"
-BSDINSTALL_DISTDIR="\$BSDINSTALL_DISTDIR/freebsd-dist"
+BSDINSTALL_DISTDIR="\$DESTDIR/usr/freebsd-dist"; export BSDINSTALL_DISTDIR
 SRCDIR="/usr/src"
 
 TMPDIR="\$(mktemp -d)"; export TMPDIR
