@@ -1,9 +1,10 @@
 bsdinstall
 ==========
 
-This is a fork of bsdinstall, the official FreeBSD installer. The objective is
-to keep the architecture and workflow, but to make the code more flexible and
-more easily allow fixing issues and continuous testing.
+This is a fork of bsdinstall, the official [FreeBSD](https://www.FreeBSD.org)
+installer. The objective is to keep the architecture and workflow, but to make
+the code more flexible and more easily allow fixing issues and continuous
+testing.
 
 Dependencies
 ------------
