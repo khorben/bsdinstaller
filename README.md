@@ -5,6 +5,18 @@ This is a fork of bsdinstall, the official FreeBSD installer. The objective is
 to keep the architecture and workflow, but to make the code more flexible and
 more easily allow fixing issues and continuous testing.
 
+Dependencies
+------------
+
+bsdinstall relies on bsddialog in order to render widgets. bsddialog is imported
+in FreeBSD in
+[contrib/bsddialog](https://cgit.freebsd.org/src/tree/contrib/bsddialog), while
+its upstream is at <https://gitlab.com/alfix/bsddialog>.
+
+bsdinstall also depends on bsdconfig for its essential routines. bsdconfig is
+maintained in FreeBSD in
+[usr.sbin/bsdconfig](https://cgit.freebsd.org/src/tree/usr.sbin/bsdconfig).
+
 References
 ----------
 
