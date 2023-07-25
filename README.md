@@ -64,6 +64,7 @@ TMPDIR="\$(mktemp -d)"; export TMPDIR
 for target in "\$@"; do
     BSDCFG_SHARE="\$SRCDIR/usr.sbin/bsdconfig/share" \
         BSDINSTALL_CHROOT="\$DESTDIR" \
+        BSDINSTALL_CONFIGCURRENT="yes" \
         BSDINSTALL_SCRIPTS="\$BSDINSTALLDIR/scripts" \
         LOCAL_DISTRIBUTIONS="base.txz kernel.txz lib32.txz" \
         DISTRIBUTIONS="lib32-dbg.txz" \
