@@ -96,7 +96,7 @@ if [ "$BSDINSTALL_CONFIGCURRENT" ]; then
 	else
 		ifconfig $INTERFACE `eval echo \\\$ifconfig_$INTERFACE`
 	fi
-	if [ "$defaultrouter" ]; then
+	if [ -n "$defaultrouter" ]; then
 		route delete -inet default
 		route add -inet default $defaultrouter
 		retval=$?
