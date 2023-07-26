@@ -70,7 +70,8 @@ while : ; do
 			err=$( rtsol -F $INTERFACE 2>&1 )
 			if [ $? -ne 0 ]; then
 				f_dprintf "%s" "$err"
-				bsddialog --backtitle "$OSNAME Installer" --msgbox "SLAAC failed." 0 0
+				bsddialog --backtitle "$OSNAME Installer" --title "Error" \
+					--msgbox "SLAAC failed." 0 0
 				AGAIN=" again"
 				continue
 			fi
@@ -147,16 +148,27 @@ BEGIN {
 }' >> $BSDINSTALL_TMPETC/._rc.conf.net
 retval=$?
 
+if [ $retval -ne 0 ]; then
+	bsddialog --backtitle "$OSNAME Installer" --title "Error" \
+	       --msgbox "Could not save the network configuration." 0 0
+	exit $retval
+fi
+
 if [ "$BSDINSTALL_CONFIGCURRENT" ]; then
 	. $BSDINSTALL_TMPETC/._rc.conf.net
 	ifconfig ${INTERFACE} `eval echo \\\$ifconfig_${INTERFACE}_ipv6`
-	if [ -n "$ipv6_defaultrouter" ]; then
+	retval=$?
+	if [ $retval -eq 0 -a -n "$ipv6_defaultrouter" ]; then
 		route delete -inet6 default
 		route add -inet6 default ${ipv6_defaultrouter}
 		retval=$?
 	fi
 fi
 
+if [ $retval -ne 0 ]; then
+	bsddialog --backtitle "$OSNAME Installer" --title "Error" \
+	       --msgbox "Could not apply the network configuration." 0 0
+fi
 exit $retval
 
 ################################################################################
