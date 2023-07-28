@@ -31,7 +31,7 @@
 . $BSDCFG_SHARE/common.subr || exit 1
 
 # Select timezone
-chroot $BSDINSTALL_CHROOT tzsetup
+tzsetup -C $BSDINSTALL_CHROOT
 
 # Switch to target timezone
 saved_TZ="$TZ"
