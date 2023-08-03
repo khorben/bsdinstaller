@@ -376,9 +376,8 @@ finalconfig() {
 	while true; do
 		exec 3>&1
 		REVISIT=$(dialog --backtitle "$OSNAME Installer" \
-		    --title "Final Configuration" --no-cancel --menu \
+		    --title "Final Configuration" --cancel-label "Finish" --menu \
 		    "Setup of your $OSNAME system is nearly complete. You can now modify your configuration choices. After this screen, you will have an opportunity to make more complex changes using a shell." 0 0 0 \
-			"Exit" "Apply configuration and exit installer" \
 			"Add User" "Add a user to the system" \
 			"Root Password" "Change root password" \
 			"Hostname" "Set system hostname" \
@@ -387,7 +386,10 @@ finalconfig() {
 			"System Hardening" "Set security options" \
 			"Time Zone" "Set system timezone" \
 			"Handbook" "Install $OSNAME Handbook (requires network)" 2>&1 1>&3)
+		retval=$?
 		exec 3>&-
+
+		[ $retval -eq 0 ] || break
 
 		case "$REVISIT" in
 		"Add User")
@@ -413,9 +415,6 @@ finalconfig() {
 			;;
 		"Handbook")
 			bsdinstall docsinstall
-			;;
-		*)
-			break
 			;;
 		esac
 	done
