@@ -373,55 +373,52 @@ fi
     bsdinstall adduser
 
 finalconfig() {
-	exec 3>&1
-	REVISIT=$(dialog --backtitle "$OSNAME Installer" \
-	    --title "Final Configuration" --no-cancel --menu \
-	    "Setup of your $OSNAME system is nearly complete. You can now modify your configuration choices. After this screen, you will have an opportunity to make more complex changes using a shell." 0 0 0 \
-		"Exit" "Apply configuration and exit installer" \
-		"Add User" "Add a user to the system" \
-		"Root Password" "Change root password" \
-		"Hostname" "Set system hostname" \
-		"Network" "Networking configuration" \
-		"Services" "Set daemons to run on startup" \
-		"System Hardening" "Set security options" \
-		"Time Zone" "Set system timezone" \
-		"Handbook" "Install $OSNAME Handbook (requires network)" 2>&1 1>&3)
-	exec 3>&-
+	while true; do
+		exec 3>&1
+		REVISIT=$(dialog --backtitle "$OSNAME Installer" \
+		    --title "Final Configuration" --no-cancel --menu \
+		    "Setup of your $OSNAME system is nearly complete. You can now modify your configuration choices. After this screen, you will have an opportunity to make more complex changes using a shell." 0 0 0 \
+			"Exit" "Apply configuration and exit installer" \
+			"Add User" "Add a user to the system" \
+			"Root Password" "Change root password" \
+			"Hostname" "Set system hostname" \
+			"Network" "Networking configuration" \
+			"Services" "Set daemons to run on startup" \
+			"System Hardening" "Set security options" \
+			"Time Zone" "Set system timezone" \
+			"Handbook" "Install $OSNAME Handbook (requires network)" 2>&1 1>&3)
+		exec 3>&-
 
-	case "$REVISIT" in
-	"Add User")
-		bsdinstall adduser
-		finalconfig
-		;;
-	"Root Password")
-		bsdinstall rootpass
-		finalconfig
-		;;
-	"Hostname")
-		bsdinstall hostname
-		finalconfig
-		;;
-	"Network")
-		bsdinstall netconfig
-		finalconfig
-		;;
-	"Services")
-		bsdinstall services
-		finalconfig
-		;;
-	"System Hardening")
-		bsdinstall hardening
-		finalconfig
-		;;
-	"Time Zone")
-		bsdinstall time
-		finalconfig
-		;;
-	"Handbook")
-		bsdinstall docsinstall
-		finalconfig
-		;;
-	esac
+		case "$REVISIT" in
+		"Add User")
+			bsdinstall adduser
+			;;
+		"Root Password")
+			bsdinstall rootpass
+			;;
+		"Hostname")
+			bsdinstall hostname
+			;;
+		"Network")
+			bsdinstall netconfig
+			;;
+		"Services")
+			bsdinstall services
+			;;
+		"System Hardening")
+			bsdinstall hardening
+			;;
+		"Time Zone")
+			bsdinstall time
+			;;
+		"Handbook")
+			bsdinstall docsinstall
+			;;
+		*)
+			break
+			;;
+		esac
+	done
 }
 
 # Allow user to change his mind
