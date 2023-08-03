@@ -259,6 +259,7 @@ extract_files(struct bsddialog_fileminibar *file)
 	char path[PATH_MAX];
 	char errormsg[PATH_MAX + 512];
 	struct bsddialog_conf conf;
+	int flags = ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_PERM;
 
 	bsddialog_initconf(&conf);
 
@@ -292,11 +293,13 @@ extract_files(struct bsddialog_fileminibar *file)
 	retval = archive_read_next_header(archive, &entry);
 
 	/* If that went well, perform the extraction */
-	if (retval == ARCHIVE_OK)
-		retval = archive_read_extract(archive, entry,
-		    ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_OWNER |
-		    ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_ACL |
-		    ARCHIVE_EXTRACT_XATTR | ARCHIVE_EXTRACT_FFLAGS);
+	if (retval == ARCHIVE_OK) {
+		if (geteuid() == 0)
+			flags = ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_OWNER |
+				ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_ACL |
+				ARCHIVE_EXTRACT_XATTR | ARCHIVE_EXTRACT_FFLAGS;
+		retval = archive_read_extract(archive, entry, flags);
+	}
 
 	/* Test for either EOF or error */
 	if (retval == ARCHIVE_EOF) {
