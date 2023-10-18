@@ -92,6 +92,7 @@ error()
 		--yes-label "$msg_restart" \
 		--yesno "$prompt" $height $width
 	then
+		environment_restore
 		exec $0
 		# NOTREACHED
 	fi
@@ -140,9 +141,25 @@ dialog_workaround()
 		--yesno "$prompt" $height $width
 }
 
+environment_restore()
+{
+	BSDINSTALL_DISTSITE="$ORIG_BSDINSTALL_DISTSITE"
+	DISTRIBUTIONS="$ORIG_DISTRIBUTIONS"
+	unset WORKAROUND_GPTACTIVE WORKAROUND_LENOVO
+	unset ZFSBOOT_PARTITION_SCHEME
+}
+
+environment_save()
+{
+	ORIG_BSDINSTALL_DISTSITE="$BSDINSTALL_DISTSITE"
+	ORIG_DISTRIBUTIONS="$DISTRIBUTIONS"
+}
+
 ############################################################ MAIN
 
 f_dprintf "Began Installation at %s" "$( date )"
+
+environment_save
 
 rm -rf $BSDINSTALL_TMPETC
 mkdir $BSDINSTALL_TMPETC

@@ -51,9 +51,24 @@ error() {
 	if [ $? -ne $BSDDIALOG_OK ]; then
 		exit
 	else
+		environment_restore
 		exec $0 $BSDINSTALL_CHROOT
 	fi
 }
+
+environment_restore()
+{
+	BSDINSTALL_DISTSITE="$ORIG_BSDINSTALL_DISTSITE"
+	DISTRIBUTIONS="$ORIG_DISTRIBUTIONS"
+}
+
+environment_save()
+{
+	ORIG_BSDINSTALL_DISTSITE="$BSDINSTALL_DISTSITE"
+	ORIG_DISTRIBUTIONS="$DISTRIBUTIONS"
+}
+
+environment_save
 
 rm -rf $BSDINSTALL_TMPETC
 mkdir $BSDINSTALL_TMPETC
