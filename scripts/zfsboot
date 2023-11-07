@@ -31,6 +31,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_dprintf "%s: loading includes..." "$0"
 f_include $BSDCFG_SHARE/device.subr
 f_include $BSDCFG_SHARE/dialog.subr
@@ -387,7 +388,7 @@ dialog_menu_main()
 	f_dialog_default_fetch defaultitem
 
 	local menu_choice
-	menu_choice=$( eval $DIALOG \
+	menu_choice=$( eval $BSDDIALOG \
 		--title \"\$title\"              \
 		--backtitle \"\$btitle\"         \
 		--hline \"\$hline\"              \
@@ -466,7 +467,7 @@ dialog_last_chance()
 
 	prompt=$( printf "$format" "$list" )
 	f_dprintf "%s: Last Chance!" "$0"
-	$DIALOG \
+	$BSDDIALOG \
 		--title "$title"        \
 		--backtitle "$btitle"   \
 		--hline "$hline"        \
@@ -573,7 +574,7 @@ dialog_menu_layout()
 		# Confirm the vdev type that was selected
 		#
 		if f_interactive && [ "$ZFSBOOT_CONFIRM_LAYOUT" ]; then
-			vdev_choice=$( eval $DIALOG \
+			vdev_choice=$( eval $BSDDIALOG \
 				--title \"\$title\"              \
 				--backtitle \"\$btitle\"         \
 				--hline \"\$vdev_hline\"         \
@@ -688,7 +689,7 @@ dialog_menu_layout()
 				\"\$title\" \"\$btitle\" \"\$prompt\" \
 				\"\$hline\" $disk_check_list
 
-			selections=$( eval $DIALOG \
+			selections=$( eval $BSDDIALOG \
 				--title \"\$DIALOG_TITLE\"         \
 				--backtitle \"\$DIALOG_BACKTITLE\" \
 				--separate-output                  \
@@ -1602,7 +1603,7 @@ dialog_zpool_name()
 	f_dialog_inputbox_size height width \
 		"$DIALOG_TITLE" "$DIALOG_BACKTITLE" "$prompt" "$value" "$hline"
 
-	$DIALOG \
+	$BSDDIALOG \
 		--title "$DIALOG_TITLE"         \
 		--backtitle "$DIALOG_BACKTITLE" \
 		--hline "$hline"                \

@@ -31,6 +31,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_include $BSDCFG_SHARE/dialog.subr
 f_dialog_backtitle "$OSNAME Installer"
 
@@ -60,7 +61,7 @@ country_set()
 		'wpa_supplicant -B -i "%s" -c "%s/wpa_supplicant.conf"' \
 		"$WLAN_IFACE" "$BSDINSTALL_TMPETC"
 	if [ "$error_str" ]; then
-		$DIALOG --title "$msg_error" \
+		$BSDDIALOG --title "$msg_error" \
 			--backtitle "$DIALOG_BACKTITLE" \
 			--yes-label Change \
 			--no-label Ignore \
@@ -115,7 +116,7 @@ dialog_country_select()
 	eval f_dialog_menu_size height width rows \
 		\"\$DIALOG_TITLE\" \"\$DIALOG_BACKTITLE\" \
 		\"\$prompt\" \"\" $regdomains
-	regdomain=$( eval $DIALOG \
+	regdomain=$( eval $BSDDIALOG \
 		--title \"\$DIALOG_TITLE\"             \
 		--backtitle \"\$DIALOG_BACKTITLE\"     \
 		--cancel-label \"\$msg_skip\"          \
@@ -132,7 +133,7 @@ dialog_country_select()
 	eval f_dialog_menu_size height width rows \
 		\"\$DIALOG_TITLE\" \"\$DIALOG_BACKTITLE\" \
 		\"\$prompt\" \"\" $countries
-	country=$( eval $DIALOG \
+	country=$( eval $BSDDIALOG \
 		--title \"\$DIALOG_TITLE\"           \
 		--backtitle \"\$DIALOG_BACKTITLE\"   \
 		--cancel-label \"\$msg_skip\"        \
@@ -218,7 +219,7 @@ while :; do
 		prompt="Select a wireless network to connect to."
 		f_dialog_menu_size height width rows "$DIALOG_TITLE" \
 			"$DIALOG_BACKTITLE" "$prompt" "" $menu_list
-		NETWORK=$( eval $DIALOG \
+		NETWORK=$( eval $BSDDIALOG \
 			--title \"\$DIALOG_TITLE\"         \
 			--backtitle \"\$DIALOG_BACKTITLE\" \
 			--extra-button                     \
@@ -247,7 +248,7 @@ while :; do
 		" # END-QUOTE
 		eval f_dialog_menu_size height width rows \"\$DIALOG_TITLE\" \
 			\"\$DIALOG_BACKTITLE\" \"\$prompt\" \"\" $menu_list
-		ENCRYPTION=$( eval $DIALOG \
+		ENCRYPTION=$( eval $BSDDIALOG \
 			--title \"\$DIALOG_TITLE\"         \
 			--backtitle \"\$DIALOG_BACKTITLE\" \
 			--menu \"\$prompt\"                \
@@ -267,7 +268,7 @@ done
 	awk -F '\t' "/^\"$NETWORK\"\t/ { print \$2 }" )
 
 if echo "$ENCRYPTION" | grep -q PSK; then
-	PASS=$( $DIALOG \
+	PASS=$( $BSDDIALOG \
 		--title "WPA Setup"              \
 		--backtitle "$DIALOG_BACKTITLE"  \
 		--insecure                       \
@@ -287,7 +288,7 @@ if echo "$ENCRYPTION" | grep -q PSK; then
 	}
 	EOF
 elif echo "$ENCRYPTION" | grep -q EAP; then
-	USERPASS=$( $DIALOG \
+	USERPASS=$( $BSDDIALOG \
 		--title "WPA-Enterprise Setup"   \
 		--backtitle "$DIALOG_BACKTITLE"  \
 		--insecure                       \
@@ -312,7 +313,7 @@ elif echo "$ENCRYPTION" | grep -q EAP; then
 	}
 	EOF
 elif echo "$ENCRYPTION" | grep -q WEP; then
-	WEPKEY=$( $DIALOG \
+	WEPKEY=$( $BSDDIALOG \
 		--title "WEP Setup"              \
 		--backtitle "$DIALOG_BACKTITLE"  \
 		--insecure                       \

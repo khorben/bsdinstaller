@@ -31,6 +31,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_dprintf "%s: loading includes..." "$0"
 f_include $BSDCFG_SHARE/dialog.subr
 f_include $BSDCFG_SHARE/mustberoot.subr
@@ -117,7 +118,7 @@ dialog_menu_main()
 	                             \"\$hline\"  \
 	                             $check_list
 	local selected
-	selected=$( eval $DIALOG \
+	selected=$( eval $BSDDIALOG \
 		--title \"\$title\"             \
 		--backtitle \"\$btitle\"        \
 		--separate-output               \

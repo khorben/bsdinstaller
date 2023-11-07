@@ -31,6 +31,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_dprintf "%s: loading_includes..." "$0"
 f_include $BSDCFG_SHARE/dialog.subr
 
@@ -78,7 +79,7 @@ dialog_hostname()
 	f_dialog_inputbox_size height width \
 		"$DIALOG_TITLE" "$DIALOG_BACKTITLE" "$prompt" "$value" "$hline"
 
-	$DIALOG \
+	$BSDDIALOG \
 		--title "$DIALOG_TITLE"         \
 		--backtitle "$DIALOG_BACKTITLE" \
 		--hline "$hline"                \

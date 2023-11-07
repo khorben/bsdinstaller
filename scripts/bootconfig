@@ -30,6 +30,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_dprintf "%s: loading_includes..." "$0"
 f_include $BSDCFG_SHARE/dialog.subr
 
@@ -50,7 +51,7 @@ dialog_uefi_entryname()
 	f_dialog_inputbox_size height width \
 		"$DIALOG_TITLE" "$DIALOG_BACKTITLE" "$prompt" "$value" "$hline"
 
-	$DIALOG \
+	$BSDDIALOG \
 		--title "$DIALOG_TITLE"         \
 		--backtitle "$DIALOG_BACKTITLE" \
 		--hline "$hline"                \
@@ -71,7 +72,7 @@ update_uefi_bootentry()
 		return
 	fi
 
-	$DIALOG --backtitle "$OSNAME Installer" --title 'Boot Configuration' \
+	$BSDDIALOG --backtitle "$OSNAME Installer" --title 'Boot Configuration' \
 	    --yesno "There are multiple \"$OSNAME\" EFI boot entries. Would you like to remove them all and add a new one?" 0 0
 	if [ $? -eq $DIALOG_OK ]; then
 		for entry in $(efibootmgr | awk "\$NF == \"$EFI_LABEL_NAME\" { sub(/.*Boot/,\"\", \$1); sub(/\*/,\"\", \$1); print \$1 }"); do

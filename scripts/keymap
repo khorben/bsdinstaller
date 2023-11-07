@@ -31,6 +31,7 @@
 : ${PREFIX:="/usr"}; export PREFIX
 : ${BSDCFG_SHARE:="$PREFIX/share/bsdconfig"}
 . $BSDCFG_SHARE/common.subr || exit 1
+: ${BSDDIALOG:="bsddialog"}
 f_dprintf "%s: loading includes..." "$0"
 f_include $BSDCFG_SHARE/dialog.subr
 f_include $BSDCFG_SHARE/keymap.subr
@@ -97,7 +98,7 @@ dialog_keymap_test()
 	f_dialog_inputbox_size height width \
 		"$title" "$btitle" "$prompt" "" "$hline"
 
-	$DIALOG \
+	$BSDDIALOG \
 		--title "$title"      \
 		--backtitle "$btitle" \
 		--hline "$hline"      \
@@ -185,7 +186,7 @@ while :; do
 		\"\$prompt\"           \
 		\"\$hline\"            \
 		$menu_list
-	menu_choice=$( eval $DIALOG \
+	menu_choice=$( eval $BSDDIALOG \
 		--title \"\$DIALOG_TITLE\"         \
 		--backtitle \"\$DIALOG_BACKTITLE\" \
 		--hline \"\$hline\"                \
