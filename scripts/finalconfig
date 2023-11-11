@@ -57,28 +57,28 @@ while true; do
 
 	case "$REVISIT" in
 	"Add User")
-		bsdinstall adduser
+		./bsdinstall adduser
 		;;
 	"Root Password")
-		bsdinstall rootpass
+		./bsdinstall rootpass
 		;;
 	"Hostname")
-		bsdinstall hostname
+		./bsdinstall hostname
 		;;
 	"Network")
-		bsdinstall netconfig
+		./bsdinstall netconfig
 		;;
 	"Services")
-		bsdinstall services
+		./bsdinstall services
 		;;
 	"System Hardening")
-		bsdinstall hardening
+		./bsdinstall hardening
 		;;
 	"Time Zone")
-		bsdinstall time
+		./bsdinstall time
 		;;
 	"Handbook")
-		bsdinstall docsinstall
+		./bsdinstall docsinstall
 		;;
 	esac
 done

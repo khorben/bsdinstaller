@@ -72,7 +72,7 @@ error()
 	if [ "$ZFSBOOT_DISKS" ]; then
 		zpool export $ZFSBOOT_POOL_NAME
 	else
-		bsdinstall umount
+		./bsdinstall umount
 	fi
 
 	exit 1
@@ -108,11 +108,11 @@ fi
 rm -f $PATH_FSTAB
 touch $PATH_FSTAB
 if [ "$ZFSBOOT_DISKS" ]; then
-	bsdinstall zfsboot
+	./bsdinstall zfsboot
 else
-	bsdinstall scriptedpart "$PARTITIONS"
+	./bsdinstall scriptedpart "$PARTITIONS"
 fi
-bsdinstall mount
+./bsdinstall mount
 
 # Fetch missing distribution files, if any
 exec 5>&1
@@ -123,10 +123,10 @@ exec 5>&-
 [ $FETCH_RESULT -ne 0 ] && error "Could not fetch remote distributions"
 
 # Unpack distributions
-bsdinstall checksum
+./bsdinstall checksum
 if [ -t 0 ]; then
 	# If install is a tty, use distextract as normal
-	bsdinstall distextract
+	./bsdinstall distextract
 else
 	# Otherwise, we need to use tar (see https://reviews.freebsd.org/D10736)
 	for set in $DISTRIBUTIONS; do
@@ -148,10 +148,10 @@ else
 fi
 
 # Configure bootloader if needed
-bsdinstall bootconfig
+./bsdinstall bootconfig
 
 # Finalize install
-bsdinstall config
+./bsdinstall config
 
 # Make sure networking is functional, if we can arrange that
 if [ ! -f $BSDINSTALL_CHROOT/etc/resolv.conf -a -f /etc/resolv.conf ]; then
@@ -166,8 +166,8 @@ if [ -f $TMPDIR/bsdinstall-installscript-ab ]; then
 	rm $BSDINSTALL_CHROOT/tmp/installscript
 fi
 
-bsdinstall entropy
-bsdinstall umount
+./bsdinstall entropy
+./bsdinstall umount
 if [ "$ZFSBOOT_DISKS" ]; then
 	zpool export $ZFSBOOT_POOL_NAME
 fi

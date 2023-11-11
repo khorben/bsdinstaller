@@ -89,7 +89,7 @@ if is_wireless_if $INTERFACE; then
 		ifconfig $NEXT_WLAN_IFACE create wlandev $INTERFACE
 		ifconfig $NEXT_WLAN_IFACE up
 	fi
-	bsdinstall wlanconfig $NEXT_WLAN_IFACE || exec $0
+	./bsdinstall wlanconfig $NEXT_WLAN_IFACE || exec $0
 	INTERFACE="$NEXT_WLAN_IFACE"
 fi
 
@@ -108,7 +108,7 @@ if [ ${IPV4_AVAIL} -eq 1 ]; then
 	$BSDDIALOG --backtitle "$OSNAME Installer" --title 'Network Configuration' \
 	    --yesno 'Would you like to configure IPv4 for this interface?' 0 0
 	if [ $? -eq $BSDDIALOG_OK ]; then
-		bsdinstall netconfig_ipv4 ${INTERFACE} "${IFCONFIG_PREFIX}" || \
+		./bsdinstall netconfig_ipv4 ${INTERFACE} "${IFCONFIG_PREFIX}" || \
 		exec $0
 	else
 		IPV4_AVAIL=0
@@ -123,7 +123,7 @@ if [ ${IPV6_AVAIL} -eq 1 ]; then
 	$BSDDIALOG --backtitle "$OSNAME Installer" --title 'Network Configuration' \
 	    --yesno 'Would you like to configure IPv6 for this interface?' 0 0
 	if [ $? -eq $BSDDIALOG_OK ]; then
-		bsdinstall netconfig_ipv6 ${INTERFACE} || exec $0
+		./bsdinstall netconfig_ipv6 ${INTERFACE} || exec $0
 	else
 		IPV6_AVAIL=0
 	fi

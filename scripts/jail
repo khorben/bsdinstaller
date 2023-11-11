@@ -119,30 +119,30 @@ if [ -n "$FETCH_DISTRIBUTIONS" -a -z "$BSDINSTALL_DISTSITE" ]; then
 fi
 
 if [ ! -z "$FETCH_DISTRIBUTIONS" ]; then
-	bsdinstall distfetch || error "Failed to fetch distribution"
+	./bsdinstall distfetch || error "Failed to fetch distribution"
 fi
 
-bsdinstall checksum || error "Distribution checksum failed"
-bsdinstall distextract || error "Distribution extract failed"
+./bsdinstall checksum || error "Distribution checksum failed"
+./bsdinstall distextract || error "Distribution extract failed"
 
 if [ ! "$nonInteractive" == "YES" ]
 then
-    bsdinstall rootpass || error "Could not set root password"
+    ./bsdinstall rootpass || error "Could not set root password"
 fi
 
 trap true SIGINT	# This section is optional
 
 if [ ! "$nonInteractive" == "YES" ]
 then
-bsdinstall services
+	./bsdinstall services
 
-    $BSDDIALOG --backtitle "$OSNAME Installer" --title "Add User Accounts" --yesno \
-        "Would you like to add users to the installed system now?" 0 0 && \
-        bsdinstall adduser
+	$BSDDIALOG --backtitle "$OSNAME Installer" --title "Add User Accounts" --yesno \
+		"Would you like to add users to the installed system now?" 0 0 && \
+	./bsdinstall adduser
 fi
 
 trap error SIGINT	# SIGINT is bad again
-bsdinstall config  || error "Failed to save config"
+./bsdinstall config  || error "Failed to save config"
 cp /etc/resolv.conf $1/etc
 cp /etc/localtime $1/etc
 cp /var/db/zoneinfo $1/var/db
